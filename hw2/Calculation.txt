@@ -1,0 +1,22 @@
+Hossain Khademian 9830339
+HW2
+
+----------
+
+each timer 0 OF int ~ 1ms
+=> count on each int to generate Tick every (1000, 500, 250, ...) milisecs
+
+CodeVision generates :
+	on 8MHz clock
+	125 kHz counter0 clock
+	normal top (0xFF)
+	start from (0x83)
+
+8MHz / 125 kHz = 1/64 counter prescaler    =>   TCCR0 |= (0<<CS02)|(1<<CS01)|(1<<CS00)
+(0xFF-0x83+1 = 125 clocks for each OF) => 125 * (1/125kHz) = 1ms each OFI0  =>  TCNT0=0x83  : each time
+
+-------------------------------------------------------
+
+MCUCR=
+external int0 in rising edge      =>   (1<<ISC01) | (1<<ISC00)
+external int1 in falling edge     =>   (1<<ISC11) | (0<<ISC10)
